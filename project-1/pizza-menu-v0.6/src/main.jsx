@@ -67,26 +67,26 @@ function Header() {
 }
 
 function Menu() {
-  const pizzaNum = pizzaData.map((soldOut) => soldOut.soldOut);
+  const pizzas = pizzaData.filter((pizza) => !pizza.soldOut);
+
   return (
     <main className='menu'>
       <h2>Our menu</h2>
 
       {/*//? Rendering the pizzas list menu using map function*/}
       <ul className='pizzas'>
-        {pizzaNum &&
-          pizzaData.map(
-            (pizza) =>
-              pizza.soldOut && (
-                <Pizza
-                  key={pizza.name}
-                  name={pizza.name}
-                  photoName={pizza.photoName}
-                  ingredients={pizza.ingredients}
-                  price={pizza.price}
-                />
-              )
-              //<Pizza pizzaObject={pizza} key={pizza.name} />
+        {pizzas.length > 0 &&
+          pizzas.map(
+            (pizza) => (
+              <Pizza
+                key={pizza.name}
+                name={pizza.name}
+                photoName={pizza.photoName}
+                ingredients={pizza.ingredients}
+                price={pizza.price}
+              />
+            )
+            //<Pizza pizzaObject={pizza} key={pizza.name} />
           )}
       </ul>
       {/* 

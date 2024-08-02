@@ -1,26 +1,83 @@
-## Task List for Pizza Menu Project
+# Fast React Pizza Co. Project
 
-1. **Organize Project Assets**
+## Overview
 
-   - Add all necessary asset files to the project.
-   - Move the `pizza` folder to the `public/images/` directory.
-   - Move the `data.js` file to the `public/` directory.
-   - Move the `index.html` file to the `src/` directory.
+Fast React Pizza Co. is a web application developed using Vite, JavaScript, and React. This project showcases an interactive menu for a pizza restaurant, highlighting various pizzas with images, ingredients, and prices. The application dynamically renders components and employs conditional rendering for user experience enhancements.
 
-2. **Component Structure**
+## Project Structure
 
-   - Create a `Pizza` component and place it above the `App` component in the component hierarchy.
-   - Import and call the `Pizza` component within the `App` component.
+- **src**
+  - **components**
+    - `Header.jsx`
+    - `Menu.jsx`
+    - `Pizza.jsx`
+    - `Footer.jsx`
+    - `Order.jsx`
+    - `App.jsx`
+  - `main.css`
+- **public**
+  - `data.js`
+  - `index.html`
+  - **images**
+    - `prosciutto.jpg`
+    - `funghi.jpg`
+    - Other pizza images
 
-3. **Data Integration**
+## Components
 
-   - Import the `data.js` file into the `Pizza` component.
-   - Display some pizza data within the `Pizza` component.
+### Header
+The `Header` component displays the main heading of the application with external and inline styling.
 
-4. **UI Enhancements**
+### Menu
+The `Menu` component fetches pizza data from `data.js` and displays the menu items. It conditionally renders the list of pizzas or a message indicating that the menu is under development.
 
-   - Add an image to the `Pizza` component to visually represent a pizza.
-   - Reuse the `Pizza` component to display information for three different pizzas.
+### Pizza
+The `Pizza` component receives pizza data as props and conditionally renders each pizza item. If a pizza is sold out, it indicates this status within the UI.
 
-5. **Implementation**
-   - Have the students implement all of the above tasks, ensuring they follow best practices for component-based architecture and data handling.
+### Footer
+The `Footer` component shows the operational hours of the restaurant and conditionally renders the `Order` component based on whether the restaurant is open or closed.
+
+### Order
+The `Order` component provides information on operational hours and includes a button for placing orders.
+
+### App
+The `App` component serves as the root component, aggregating `Header`, `Menu`, and `Footer` components into a single layout.
+
+## Data and Assets
+
+- **Pizza Data**: Pizza details are stored in `data.js`, including the name, ingredients, image path, price, and availability status.
+- **Images**: Images of pizzas are stored in the `public/images` directory.
+
+## Setup and Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository_url>
+   cd pizza-menu-v1.0
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+5. **Preview the production build**:
+   ```bash
+   npm run serve
+   ```
+
+## Usage
+
+1. **Main Page**: Displays the header, menu with pizzas, and footer with operational hours.
+2. **Conditional Rendering**: The footer dynamically updates to show whether the restaurant is open or closed.
+3. **Order Button**: When the restaurant is open, an order button is available for users to place orders.

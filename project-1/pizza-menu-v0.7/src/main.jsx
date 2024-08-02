@@ -72,20 +72,24 @@ function Menu() {
   // const pizzas = []
   const pizzasNum = pizzaData.length;
   return (
-    <main className='menu'>
-      <h2>Our menu</h2>
+    <>
+      <p>This is our Pizz menu available</p>
+      <main className='menu'>
+        <h2>Our menu</h2>
 
-      {pizzasNum > 0 && (
-        //? Rendering the pizzas list menu using map function
-        <ul className='pizzas'>
-          {pizzaData.map((pizza) => (
-            <Pizza name={pizza.name} photoName={pizza.photoName} />
-          ))}
-        </ul>
-      )}
+        {pizzasNum > 0 ? (
+          //? Rendering the pizzas list menu using map function
+          <ul className='pizzas'>
+            {pizzaData.map((pizza) => (
+              <Pizza pizzaObject={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        ) : (
+          <p>We're still working in our menu. Please come back later :)</p>
+        )}
 
-      {/*//? Defining our own props to a child component */}
-      {/* 
+        {/*//? Defining our own props to a child component */}
+        {/* 
         <Pizza
           name='Pizza Prosciutto'
           ingredients='Tomato, mozarella, ham, aragula, and burrata cheese'
@@ -94,8 +98,8 @@ function Menu() {
         />
       */}
 
-      {/* Create another component */}
-      {/* 
+        {/* Create another component */}
+        {/* 
         <Pizza
           name='Pizza Funghi'
           ingredients='Tomato, mozarella, mushrooms, and onion'
@@ -103,22 +107,29 @@ function Menu() {
           price='12'
         />
       */}
-    </main>
+      </main>
+    </>
   );
 }
 
 //? define the props object parameter that includes all the data/values from the parent component (Menu)
-function Pizza(props) {
-  console.log(props);
+function Pizza({
+  pizzaObject: { soldOut, photoName, name, ingredients, price },
+}) {
+  // console.log(props);
+
+  if (soldOut) {
+    return null;
+  }
 
   return (
     // Sending props by entering JavaScript mode '{}' inside the HTML elements and start accessing props values
     <div className='pizza'>
-      <img src={props.photoName} alt={props.name} />
+      <img src={photoName} alt={name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price}</span>
+        <h3>{name}</h3>
+        <p>{ingredients}</p>
+        <span>{price}</span>
       </div>
     </div>
   );
@@ -128,7 +139,7 @@ function Footer() {
   ////? Using JavaScript logic in React
   const hour = new Date().getHours();
   const openHour = 6; // change the value to switch the result of the isOpen variable
-  const closeHour = 22;
+  const closeHour = 23;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
 
@@ -136,29 +147,49 @@ function Footer() {
   // if (hour >= openHour && hour <= closHour) alert("We're currently open!");
   // else alert("Sorry, we're closed");
 
+  // if (!isOpen) {
+  //   return (
+  //     <p>
+  //       Sorry, we're currently closed! <Header />
+  //     </p>
+  //   );
+  // }
+
   return (
     <footer className='footer'>
       {/*{new Date().toLocaleTimeString()}. We&apos;re currently open! */}
 
       {/*//? Conditional Rendering | Short Circuiting*/}
-      {isOpen && (
-        <div className='order'>
-          <p>We're open until {closeHour}:00. Come visit us or order online.</p>
-          <button className='btn'>Order</button>
-        </div>
+      {isOpen ? (
+        <Order closeHour={closeHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 aand {closeHour}:00{' '}
+        </p>
       )}
     </footer>
+  );
+}
+
+function Order({ closeHour }) {
+  return (
+    <div className='order'>
+      <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+      <button className='btn'>Order</button>
+    </div>
   );
 }
 
 // React main (root) functional component
 function App() {
   return (
-    <div className='container'>
-      <Header />
-      <Menu />
-      <Footer />
-    </div>
+    <React.Fragment>
+      <div className='container'>
+        <Header />
+        <Menu />
+        <Footer />
+      </div>
+    </React.Fragment>
   );
 }
 

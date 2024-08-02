@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello React!</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <!-- added for the usage of JSX syntax  -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        // const time = new Date().toLocaleTimeString();
+        const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+
+        React.useEffect(function () {
+          const intervalId = setInterval(function () {
+            setTime(new Date().toLocaleTimeString());
+          }, 1000);
+
+          // Cleanup function to clear the interval
+          return function cleanup() {
+            clearInterval(intervalId);
+          };
+        }, []);
+
+        // return React.createElement('header', null, `Hello React! It's ${time}`);
+        return <header>Hello React! It's {time}</header>;
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      // root.render(React.createElement(App));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

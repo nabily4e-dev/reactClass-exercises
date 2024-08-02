@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Today's Advice</title>
+  </head>
+  <body>
+    <header>
+      <h1>Today's Advice</h1>
+    </header>
+    <main>
+      <p id="advice"></p>
+      <p>You have read <strong id="count"></strong> pieces of advice</p>
+      <button id="advice-btn">Get New Advice</button>
+    </main>
+
+    <script>
+      // Get references to DOM elements
+      const adviceEl = document.getElementById('advice');
+      const countEl = document.getElementById('count');
+      const adviceBtnEl = document.getElementById('advice-btn');
+
+      // Initialize advice and count
+      let advice = '';
+      let count = 0;
+
+      // Function to fetch and display advice
+      const getAdvice = async function () {
+        try {
+          const response = await fetch('https://api.adviceslip.com/advice');
+          const adviceData = await response.json();
+          advice = adviceData.slip.advice;
+          count += 1; // Increment count
+          adviceEl.textContent = advice;
+          countEl.textContent = count;
+        } catch (error) {
+          console.error('Error fetching advice:', error);
+          adviceEl.textContent = 'Failed to fetch advice. Please try again.';
+        }
+      };
+
+      // Fetch initial advice on page load
+      getAdvice();
+
+      // Add event listener to button
+      adviceBtnEl.addEventListener('click', getAdvice);
+    </script>
+  </body>
+</html>

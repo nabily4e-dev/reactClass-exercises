@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./vanilla-JS.css" />
+    <title>Vanilla JS Advice</title>
+  </head>
+  <body>
+    <header role="banner">
+      <h1>Today's Advice</h1>
+    </header>
+    <main role="main">
+      <section aria-live="polite">
+        <h1 id="advice" aria-live="assertive" tabindex="-1">Loading...</h1>
+        <p>
+          You have read
+          <strong id="advice-count" tabindex="-1">0</strong> piece<span
+            id="plural-s"
+            tabindex="-1"
+          ></span>
+          of advice.
+        </p>
+      </section>
+      <button id="new-advice" tabindex="0">Get New Advice</button>
+    </main>
+    <script>
+      // Manually selecting DOM elements (which require a class or ID in markup)
+      const adviceEl = document.getElementById('advice');
+      const newAdviceBtnEl = document.getElementById('new-advice');
+      const countEl = document.getElementById('advice-count');
+      const pluralSEl = document.getElementById('plural-s');
+
+      // Getting a new advice
+      const getAdvice = async function () {
+        try {
+          const adviceAPIResponse = await fetch(
+            'https://api.adviceslip.com/advice'
+          );
+          const adviceData = await adviceAPIResponse.json();
+
+          // Updating values
+          advice = adviceData.slip.advice;
+          count += 1;
+
+          // Manually updating DOM elements
+          adviceEl.textContent = advice;
+          countEl.textContent = count;
+          pluralSEl.textContent = count > 1 ? 's' : '';
+        } catch (error) {
+          console.error('Fetch error: ', error);
+          adviceEl.textContent =
+            'Failed to fetch advice. Please try again, or check your network.';
+        }
+      };
+
+      // Setting initial values
+      let count = 0;
+      let advice;
+      getAdvice();
+
+      // Attaching an event listener
+      newAdviceBtnEl.addEventListener('click', getAdvice);
+    </script>
+  </body>
+</html>

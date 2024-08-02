@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Todo App</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .todo-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      function TodoApp() {
+        const [todos, setTodos] = React.useState([]);
+        const [newTodo, setNewTodo] = React.useState('');
+
+        const addTodo = () => {
+          if (newTodo.trim() !== '') {
+            setTodos([...todos, { text: newTodo, completed: false }]);
+            setNewTodo('');
+          }
+        };
+
+        const toggleTodo = (index) => {
+          const updatedTodos = todos.map((todo, i) =>
+            i === index ? { ...todo, completed: !todo.completed } : todo
+          );
+          setTodos(updatedTodos);
+        };
+
+        const deleteTodo = (index) => {
+          const updatedTodos = todos.filter((_, i) => i !== index);
+          setTodos(updatedTodos);
+        };
+
+        return React.createElement(
+          'div',
+          null,
+          React.createElement('h1', null, 'Todo List'),
+          React.createElement('input', {
+            type: 'text',
+            value: newTodo,
+            onChange: (e) => setNewTodo(e.target.value),
+            placeholder: 'Add a new task',
+          }),
+          React.createElement('button', { onClick: addTodo }, 'Add'),
+          React.createElement(
+            'ul',
+            null,
+            todos.map((todo, index) =>
+              React.createElement(
+                'li',
+                { key: index, className: 'todo-item' },
+                React.createElement(
+                  'span',
+                  {
+                    onClick: () => toggleTodo(index),
+                    className: todo.completed ? 'completed' : '',
+                  },
+                  todo.text
+                ),
+                React.createElement(
+                  'button',
+                  { onClick: () => deleteTodo(index) },
+                  'Delete'
+                )
+              )
+            )
+          )
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(TodoApp));
+    </script>
+  </body>
+</html>
